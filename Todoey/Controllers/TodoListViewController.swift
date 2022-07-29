@@ -13,17 +13,13 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = [Item]()
     
+    // Core Data
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    
-        //loadItems()
-        
-      
-
+        loadItems()
     }
     
     //MARK - Tableview Datasource Methods
@@ -48,6 +44,9 @@ class TodoListViewController: UITableViewController {
     
     //MARK - Tableview DELEGATE Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
@@ -90,7 +89,7 @@ class TodoListViewController: UITableViewController {
     func saveItems(){
         
         do{
-            try self.context.save()
+            try context.save()
         }catch{
             print("Error saving context \(error)")
         }
@@ -100,21 +99,16 @@ class TodoListViewController: UITableViewController {
     
     }
     
-//    func loadItems(){
-//
-//        if let data = try? Data(contentsOf: dataFilePath!){
-//
-//
-//            do{
-//
-//            }catch{
-//
-//            }
-//
-//
-//        }
-//
-//    }
+    func loadItems(){
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        do{
+            itemArray = try context.fetch(request)
+        }catch{
+            print("Error fetching data from context \(error)")
+        }
+       
+    }
     
 }
 
