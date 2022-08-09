@@ -12,6 +12,9 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    //---------------------------- REALM
+    
+
     var window: UIWindow?
 
 
